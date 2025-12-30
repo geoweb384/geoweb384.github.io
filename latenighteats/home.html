@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Plateau / Mile End Late Night Eats</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+
+<style>
+
+  /*add some awesome styling!*/
+
+    body {
+      background-color: #1f0d29; /*purple to match basemap!*/
+      font-family: "Courier New", monospace;
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100%;
+    }
+
+    header {
+      text-align: center;
+      color: white;
+    }
+
+    main {
+      text-align: center;
+      color: white;
+
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 25px;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0 auto;
+      padding: 0;
+      overflow: hidden;
+      background-color: #714B86;
+      font-family: "Courier New", monospace;
+      width: 75vw;   
+      max-width: 1000px;   
+
+      display: flex;
+      justify-content: center;
+      border-radius: 3px;          
+    }
+
+    ul li {
+      margin: 0 auto;
+      width: 25%;
+    }
+
+    ul li a {
+      margin: 0 auto;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-family: "Courier New", monospace; 
+    }
+
+    ul li a:hover {
+      margin: 0 auto;
+      background-color: #B497C4;
+    }
+
+    #map {
+      width: 75vw; /*adaptive width and height based on screen size!*/
+      max-width: 1000px;
+      height: 75vh;
+      border: 4px dotted;
+      border-color: white;
+      border-radius: 5px;
+    }
+
+    .popup {
+      max-width: 240px;
+      line-height: 1.4;
+      background: white;
+      font-family: "Courier New", monospace;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .popup bold {
+      font-size: 14px;
+      font-weight: 700;
+      display: block;
+
+    }
+
+    .popup small {
+      font-size: 0.7rem;
+      display: block;
+
+    }
+
+    .popup med {
+      font-size: 0.7rem;
+      font-style: italic;
+      display: block;
+
+    }
+
+    .popup a {
+      color: #7f08ff;
+    }
+
+    .popup a:hover {
+      text-decoration: underline;
+    }
+
+    .popup-img {
+      width: 100%;
+      height: 100%;
+      max-height: 140px;
+      object-fit: cover;
+      border-radius: 6px;
+      border-style: dotted;
+      display: block;
+      margin: 0 0 6px 0;
+    }
+
+    #map {
+      width: 75vw;
+      max-width: 1000px;
+      height: 75vh;
+      border: 4px dotted white;
+      border-radius: 5px;
+    }
+</style>
+</head>
+
+<body>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
+
+    <header>
+      <h1>Plateau / Mile End Late Night Eats</h1>
+    </header>
+
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="navigation.html">Navigation Tool</a></li>
+    </ul>
+
+    <div id="map"></div>
+    
+    <footer>
+      <p>Nikolas Hochschild, Ivy Shi, Charlotte Alarie</p>
+    </footer>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaXZ5c2hpIiwiYSI6ImNtZjJybW1yeDJqcWsya29hZGdraGx3cHkifQ.tgAFOixQ8nPqGfZ2LvXBng';
+
+//bound to Greater Montreal area
+    const bounds = [
+    [-74.30867, 45.24958], 
+    [-72.98227, 45.84314]
+]
+
+    const map = new mapboxgl.Map({
+        container: 'map', 
+        style: 'mapbox://styles/ivyshi/cmgwt53pw000q01s37ts2f5y6',
+        center: [-73.58, 45.52],
+        zoom: 13,
+        maxBounds: bounds //bounds from earlier
+    });
+
+//add GEOJSON
+    map.on('load', () => {
+        map.addSource('places', {
+            'type': 'geojson',
+            'generateId': true,
+            'data': 
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "HELM microbrasserie",
+              "photo": "https://portal.restodata.ca/helm/logo/resto_logo.gif",
+              "RESTO URL": "https://www.restomontreal.ca/resto/helm-microbrasserie-montreal/1134/en/",
+              "address": "273 Avenue Bernard O, Montreal, H2V 1T5",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.6054267,
+                45.5240853
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "ZEEZ",
+              "photo": "https://portal.restodata.ca/zeez/logo/resto_logo_9972.gif",
+              "RESTO URL": "https://www.restomontreal.ca/resto/zeez-montreal/17534/en/",
+              "address": "19 Avenue Mont-Royal E, Montreal, H2T 1N4",
+              "sat-open": "11:00",
+              "sat-close": "06:00",
+              "price": "$",
+              "rating": 4.8
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5862691,
+                45.5204652
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "La Banquise",
+              "photo": "https://portal.restodata.ca/la-banquise/logo/resto_logo_6003.gif",
+              "RESTO URL": "https://www.restomontreal.ca/resto/la-banquise-montreal/2499/en/",
+              "address": "994 Rue Rachel E., Montreal, H2J 2J3",
+              "sat-open": "24h",
+              "sat-close": "24h",
+              "price": "$ & $$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5746721,
+                45.5253117
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Pizzeria la focaccia",
+              "photo": "https://media.restodata.ca/_restoimages/Square/16/17816-photo683.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/pizzeria-la-focaccia-montreal/17816/en/",
+              "address": "2202 Avenue Mont-Royal E, Montreal, H2H 1K4",
+              "sat-open": "12:00",
+              "sat-close": "02:00",
+              "price": "$$",
+              "rating": 4.9
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5709431,
+                45.5365737
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "St-Viateur Bagel",
+              "photo": "https://media.restodata.ca/_restoimages/Square/3/4797-photo553.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/st-viateur-bagel-montreal/4797/en/",
+              "address": "263 Rue St-Viateur O, Montreal, H2V 1Y1",
+              "sat-open": "06:00",
+              "sat-close": "00:00",
+              "price": "$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.6020728,
+                45.5227173
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Café Olimpico",
+              "photo": "https://media.restodata.ca/_restoimages/Square/2/3066-photo686.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/cafe-olimpico-montreal/3066/en/",
+              "address": "124 Rue St-Viateur O, Montreal, H2T 2L1",
+              "sat-open": "06:00",
+              "sat-close": "00:00",
+              "price": "$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.6002501,
+                45.5241048
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Fairmount Bagel Bakery",
+              "photo": "https://media.restodata.ca/_restoimages/Square/3/4796-photo764.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/fairmount-bagel-bakery-montreal/4796/en/",
+              "address": "74 Avenue Fairmount O, Montreal, H2T 2M2",
+              "sat-open": "24h",
+              "sat-close": "24h",
+              "price": "$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5950995,
+                45.5228928
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Grenade - Resto-bar et terrasse",
+              "photo": "https://media.restodata.ca/_restoimages/Square/7/8007-photo344.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/grenade-resto-bar-et-terrasse-montreal/8007/en/",
+              "address": "1603 Rue Ontario E, Montreal, H2L 1S6",
+              "sat-open": "16:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.3
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5602411,
+                45.5250456
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "L'Express",
+              "photo": "https://media.restodata.ca/_restoimages/Square/1/1111-photo852.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/lexpress-montreal/1111/en/",
+              "address": "3927 Rue Saint-Denis, Montreal, H2W 2M4",
+              "sat-open": "11:30",
+              "sat-close": "01:00",
+              "price": "$$$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5743498,
+                45.5203941
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Pub Bishop & Bagg",
+              "photo": "https://media.restodata.ca/_restoimages/Square/6/7352-photo591.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/pub-bishop-bagg-montreal/7352/en/",
+              "address": "52 Rue St-Viateur O, Montreal, H2T 2X2",
+              "sat-open": "10:00",
+              "sat-close": "02:00",
+              "price": "$$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5994124,
+                45.5250859
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Le Darling",
+              "photo": "https://media.restodata.ca/_restoimages/Square/10/11699-photo107.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/le-darling-montreal/11699/en/",
+              "address": "4328 Boulevard St-Laurent, Montreal, H2W 1Z3",
+              "sat-open": "10:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.584071,
+                45.518842
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Patati Patata",
+              "photo": "https://media.restodata.ca/_restoimages/Square/2/3261-photo877.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/patati-patata-montreal/3261/en/",
+              "address": "4177 Boulevard Saint-Laurent, Montreal, H2W 1Y7",
+              "sat-open": "11:00",
+              "sat-close": "02:00",
+              "price": "$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5814759,
+                45.5180533
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "McKibbins Irish Pub",
+              "photo": "https://portal.restodata.ca/mckibbins-st-laurent/logo/resto_logo.gif",
+              "RESTO URL": "https://www.restomontreal.ca/resto/mckibbins-irish-pub-montreal/3367/en/",
+              "address": "3515 Boulevard St Laurent, Montreal, H2X 2T6",
+              "sat-open": "11:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.571102,
+                45.5134992
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "La Croissanterie Figaro",
+              "photo": "https://portal.restodata.ca/la-croissanterie-figaro/logo/resto_logo.gif",
+              "RESTO URL": "https://www.restomontreal.ca/resto/la-croissanterie-figaro-montreal/741/en/",
+              "address": "5200 Rue Hutchison, Montreal, H2V 4B3",
+              "sat-open": "07:00",
+              "sat-close": "00:00",
+              "price": "$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5986682,
+                45.5193535
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Estiatorio Milos - Montreal",
+              "photo": "https://media.restodata.ca/_restoimages/Square/1/1308-photo869.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/estiatorio-milos-montreal/1308/en/",
+              "address": "5357 Avenue du Parc, Montreal, H2V 4G9",
+              "sat-open": "17:30",
+              "sat-close": "00:00",
+              "price": "$$$$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.6004519,
+                45.5217348
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Chez Claudette",
+              "photo": "https://media.restodata.ca/_restoimages/Square/3/4489-photo405.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/chez-claudette-montreal/4489/en/",
+              "address": "351 Avenue Laurier E, Montreal, H2T 1G7",
+              "sat-open": "11:00",
+              "sat-close": "00:00",
+              "price": "$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5900727,
+                45.5264553
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Pub Pit Caribou Montréal",
+              "photo": "https://media.restodata.ca/_restoimages/Square/11/12937-photo807.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/pub-pit-caribou-montreal/12937/en/",
+              "address": "951 Rue Rachel E, Montreal, H2J 2J4",
+              "sat-open": "14:00",
+              "sat-close": "01:00",
+              "price": "$ & $$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5755396,
+                45.5250829
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Berlin Döner Haus",
+              "photo": "https://media.restodata.ca/_restoimages/Square/19/20299-photo647.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/berlin-doener-haus-montreal/20299/en/",
+              "address": "3864 Boulevard Saint-Laurent, Montreal, H2W 1Y2",
+              "sat-open": "11:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.9
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5775431,
+                45.5159212
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Le Réservoir",
+              "photo": "https://media.restodata.ca/_restoimages/Square/2/2162-photo889.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/le-reservoir-montreal/2162/en/",
+              "address": "9 Avenue Duluth E, Montreal, H2W 1G7",
+              "sat-open": "10:30",
+              "sat-close": "01:00",
+              "price": "$$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5793616,
+                45.5172645
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "H2 Hyderabad House",
+              "photo": "https://media.restodata.ca/_restoimages/Square/12/13170-photo126.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/h2-hyderabad-house-montreal/13170/en/",
+              "address": "4723 Rue Saint-Denis, Montreal, H2J 2L5",
+              "sat-open": "16:00",
+              "sat-close": "04:00",
+              "price": "$ & $$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5855349,
+                45.5253837
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Mumbai Masala",
+              "photo": "https://media.restodata.ca/_restoimages/Square/10/11645-photo367.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/mumbai-masala-montreal/11645/en/",
+              "address": "3673 Boulevard St-Laurent, Montreal, H2X 2V5",
+              "sat-open": "18:30",
+              "sat-close": "04:00",
+              "price": "$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5738515,
+                45.5146221
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Projet Pilote - Distillery & Brewpub",
+              "photo": "https://media.restodata.ca/_restoimages/Square/13/14788-photo172.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/projet-pilote-distillery-brewpub-montreal/14788/en/",
+              "address": "980 Rue Rachel E, Montreal, H2J 2J3",
+              "sat-open": "17:00",
+              "sat-close": "01:00",
+              "price": "$ & $$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5747781,
+                45.5251488
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Dieu du Ciel!",
+              "photo": "https://media.restodata.ca/_restoimages/Square/2/2115-photo750.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/dieu-du-ciel-montreal/2115/en/",
+              "address": "29 Avenue Laurier O, Montreal, H2T 2N2",
+              "sat-open": "11:00",
+              "sat-close": "02:00",
+              "price": "$$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5934028,
+                45.5227004
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Bar Henrietta",
+              "photo": "https://media.restodata.ca/_restoimages/Square/9/10313-photo803.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/bar-henrietta-montreal/10313/en/",
+              "address": "115 Avenue Laurier O, Montreal, H2T 2N6",
+              "sat-open": "16:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5943906,
+                45.5216541
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Barraca Rhumerie Montréal",
+              "photo": "https://media.restodata.ca/_restoimages/Square/3/4792-photo755.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/barraca-rhumerie-montreal/4792/en/",
+              "address": "1134 Avenue du Mont-Royal E, Montreal, H2J 1X8",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.3
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5785958,
+                45.5283058
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Sparta Poulet / Chicken",
+              "photo": "https://media.restodata.ca/_restoimages/Square/11/12317-photo930.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/sparta-poulet-chicken-montreal/12317/en/",
+              "address": "405B Sherbrooke E, Montreal, H2L 1J9",
+              "sat-open": "17:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5676598,
+                45.5172006
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Alto Restaurant",
+              "photo": "https://media.restodata.ca/_restoimages/Square/1/23-photo903.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/alto-restaurant-montreal/23/en/",
+              "address": "3469 Avenue du Parc, Montreal, H2X 2H5",
+              "sat-open": "11:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5727703,
+                45.5092605
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "L'Entrepôt Mont-Royal",
+              "photo": "https://media.restodata.ca/_restoimages/Square/7/8876-photo151.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/lentrepot-mont-royal-montreal/8876/en/",
+              "address": "1019 Avenue du Mont-Royal E, Montreal, H2J 1X7",
+              "sat-open": "11:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.3
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5798579,
+                45.5277009
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Mont Tacos",
+              "photo": "https://media.restodata.ca/_restoimages/Square/13/14592-photo351.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/mont-tacos-montreal/14592/en/",
+              "address": "4505 Rue Saint-Denis, Montreal, H2J 2L4",
+              "sat-open": "11:00",
+              "sat-close": "05:30",
+              "price": "$",
+              "rating": 4.2
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5830296,
+                45.5242602
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Diese Onze Jazz Bar",
+              "photo": "https://media.restodata.ca/_restoimages/Square/2/3195-photo477.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/diese-onze-jazz-bar-montreal/3195/en/",
+              "address": "\n4115A Rue Saint-Denis, Montreal, H2W 2M7",
+              "sat-open": "18:00",
+              "sat-close": "01:00",
+              "price": "$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.576897,
+                45.521461
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Milton B - Cafétéria urbaine",
+              "photo": "https://media.restodata.ca/_restoimages/Square/10/11777-photo249.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/milton-b-cafeteria-urbaine-montreal/11777/en/",
+              "address": "3498 Avenue du Parc, Montreal, H2X 2H5",
+              "sat-open": "24h",
+              "sat-close": "24h",
+              "price": "$",
+              "rating": 4.3
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5737346,
+                45.5093192
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Else's",
+              "photo": "https://media.restodata.ca/_restoimages/Square/1/695-photo993.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/elses-montreal/695/en/",
+              "address": "156 Rue Roy E, Montreal, H2W 1M2",
+              "sat-open": "12:00",
+              "sat-close": "01:00",
+              "price": "$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5745858,
+                45.5168567
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Bar Suzanne",
+              "photo": "https://media.restodata.ca/_restoimages/Square/10/11924-photo237.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/bar-suzanne-montreal/11924/en/",
+              "address": "20 Avenue Duluth E, Montreal, H2W 1G6",
+              "sat-open": "16:00",
+              "sat-close": "02:00",
+              "price": "$$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5789625,
+                45.5172664
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Le Rouge Gorge",
+              "photo": "https://media.restodata.ca/_restoimages/Square/6/7717-photo453.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/le-rouge-gorge-montreal/7717/en/",
+              "address": "1234 Avenue Mont Royal E, Montreal, H2J 1Y1",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5779231,
+                45.5290871
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Poke Monster",
+              "photo": "https://media.restodata.ca/_restoimages/Square/17/18027-photo167.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/poke-monster-montreal/18027/en/",
+              "address": "3550 Avenue Park, Montreal, H2X 2H7",
+              "sat-open": "10:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.8
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5753334,
+                45.5100716
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Plateau Bistro",
+              "photo": "https://media.restodata.ca/_restoimages/Square/16/17240-photo957.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/plateau-bistro-montreal/17240/en/",
+              "address": "901 Rue Sherbrooke E, Montreal, H2L 1L3",
+              "sat-open": "14:00",
+              "sat-close": "04:00",
+              "price": "$$ & $$$",
+              "rating": 4.9
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5663703,
+                45.5200973
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Le Majestique Montréal",
+              "photo": "https://media.restodata.ca/_restoimages/Square/6/7379-photo110.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/le-majestique-montreal/7379/en/",
+              "address": "4105 Boulevard St-Laurent, Montreal, H2W 1Y7",
+              "sat-open": "16:00",
+              "sat-close": "03:00",
+              "price": "$$ & $$$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.580276,
+                45.5175694
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Palais Maharaja Palace",
+              "photo": "https://media.restodata.ca/_restoimages/Square/11/12611-photo584.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/palais-maharaja-palace-montreal/12611/en/",
+              "address": "404 Rue Gilford, Montreal, H2J 1N2",
+              "sat-open": "13:30",
+              "sat-close": "01:30",
+              "price": "$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5859262,
+                45.5255953
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Poke Island",
+              "photo": "https://media.restodata.ca/_restoimages/Square/16/17372-photo655.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/poke-island-montreal/17372/en/",
+              "address": "75 Rue St-Viateur O, Montreal, H2T 2K9",
+              "sat-open": "10:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5998827,
+                45.5249593
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Osmow's Shawarma",
+              "photo": "https://media.restodata.ca/_restoimages/Square/18/19139-photo443.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/osmows-shawarma-montreal/19139/en/",
+              "address": "1604 Avenue du Mont-Royal E, Montreal, H2J 1Z2",
+              "sat-open": "11:00",
+              "sat-close": "00:00",
+              "price": "$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5752935,
+                45.532179
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Double's",
+              "photo": "https://media.restodata.ca/_restoimages/Square/15/16752-photo673.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/doubles-montreal/16752/en/",
+              "address": "5171 Avenue du Parc, Montreal, H2V 4G3",
+              "sat-open": "17:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.3
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5970675,
+                45.5204367
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Taverne Saint-Sacrement",
+              "photo": "https://media.restodata.ca/_restoimages/Square/4/5897-photo887.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/taverne-saint-sacrement-montreal/5897/en/",
+              "address": "775 Avenue du Mont-Royal E, Montreal, H2J 1W8",
+              "sat-open": "12:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5814658,
+                45.5258808
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Fitzroy",
+              "photo": "https://media.restodata.ca/_restoimages/Square/7/8620-photo700.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/fitzroy-montreal/8620/en/",
+              "address": "551 Avenue du Mont-Royal E, Montreal, H2J 1W5",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5819664,
+                45.5252722
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Casa del Popolo",
+              "photo": "https://media.restodata.ca/_restoimages/Square/1/500-photo501.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/casa-del-popolo-montreal/500/en/",
+              "address": "4873 Boulevard St-Laurent, Montreal, H2T 1R6",
+              "sat-open": "17:00",
+              "sat-close": "03:00",
+              "price": "$$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5905575,
+                45.5221951
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Bily Kun",
+              "photo": "https://media.restodata.ca/_restoimages/Square/9/10683-photo206.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/bily-kun-montreal/10683/en/",
+              "address": "354 Avenue du Mont-Royal E, Montreal, H2T 1R1",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.6
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5832036,
+                45.523475
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Ye Olde Orchard Pub & Grill",
+              "photo": "https://media.restodata.ca/_restoimages/Square/3/4481-photo180.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/ye-olde-orchard-pub-grill-montreal/4481/en/",
+              "address": "20 Rue Prince Arthur O, Montreal, H2X 1S3",
+              "sat-open": "10:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.4
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5727085,
+                45.5135101
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "North Star Machines À Piastres",
+              "photo": "https://media.restodata.ca/_restoimages/Square/9/10436-photo324.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/north-star-machines-a-piastres-montreal/10436/en/",
+              "address": "3908 Boulevard St Laurent, Montreal, H2W 1Y2",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$",
+              "rating": 4.8
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5782465,
+                45.516305
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Bar Le Sparrow",
+              "photo": "https://media.restodata.ca/_restoimages/Square/4/5152-photo231.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/bar-le-sparrow-montreal/5152/en/",
+              "address": "5322 Boulevard St-Laurent, Montreal, H2T 1S1",
+              "sat-open": "10:00",
+              "sat-close": "02:00",
+              "price": "$$",
+              "rating": 4.5
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5965301,
+                45.524609
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": "Chez Baptiste",
+              "photo": "https://media.restodata.ca/_restoimages/Square/5/6088-photo659.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/chez-baptiste-montreal/6088/en/",
+              "address": "1045 Avenue du Mont-Royal E, Montreal, H2J 1X7",
+              "sat-open": "15:00",
+              "sat-close": "03:00",
+              "price": "$ & $$",
+              "rating": 4.2
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.5794636,
+                45.5279154
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "name": " Le Terminal ",
+              "photo": "https://media.restodata.ca/_restoimages/Square/8/9954-photo640.jpg",
+              "RESTO URL": "https://www.restomontreal.ca/resto/le-terminal-montreal/9954/en/",
+              "address": "1875 Avenue du Mont-Royal E, Montreal, H2H 1J3",
+              "sat-open": "16:00",
+              "sat-close": "01:00",
+              "price": "$ & $$",
+              "rating": 4.7
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.574014,
+                45.5338382
+              ]
+            }
+          }
+        ]
+      }
+        });
+
+//add GEOJSON as invisible circles so that map is interctive with the symbology designed in Mapbox Studio 
+        map.addLayer({
+            'id': 'places',
+            'type': 'circle',
+            'source': 'places',
+            'paint': {
+                'circle-opacity': 0, //invisible!
+                'circle-radius': 4,
+            }
+        });
+
+//create a reusable popup box
+        const hoverPopup = new mapboxgl.Popup({
+          closeButton: true, //with a close button
+          closeOnClick: false,
+          offset: 12,
+          className: 'hover-popup'
+        });
+
+//what to be shown in the popup, embedding GEOJSON
+        const popupHTML = (p) => `
+          <div class="popup">
+            <img src="${p.photo}" class="popup-img">
+            <bold>${p.name}</bold>
+            <med>${p.address.split(',')[0]}</med>
+            <small>
+                  SATURDAY HOURS:
+                  ${
+                    p['sat-open'] === '24h'
+                      ? '24h'
+                      : `${p['sat-open']} – ${p['sat-close']}`
+                  }
+            </small>
+            <small>PRICE: ${p.price}</small>
+            <small>RATING: ${p.rating}/5</small>
+            ${p['RESTO URL'] ? `<a href="${p['RESTO URL']}" target="_blank">more info </a>` : ''}
+          </div>
+        `;
+
+//show popup on hover
+        map.on('mouseenter', 'places', (e) => {
+          map.getCanvas().style.cursor = 'pointer';
+          const f = e.features && e.features[0];
+          if (!f) return;
+          hoverPopup
+            .setLngLat(f.geometry.coordinates)
+            .setHTML(popupHTML(f.properties))
+            .addTo(map);
+        });
+
+//change mouse style on enter
+        map.addInteraction('places-mouseenter-interaction', {
+            type: 'mouseenter',
+            target: { layerId: 'places' },
+            handler: () => {
+                map.getCanvas().style.cursor = 'pointer';
+            }
+        });
+
+//change mouse style on leave
+        map.addInteraction('places-mouseleave-interaction', {
+            type: 'mouseleave',
+            target: { layerId: 'places' },
+            handler: () => {
+                map.getCanvas().style.cursor = '';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
