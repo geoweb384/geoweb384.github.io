@@ -1,0 +1,743 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2025-11-06T18:48:45Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/392505311",
+        "barrier": "bollard",
+        "bollard": "rising"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5775705,
+          45.5037741
+        ]
+      },
+      "id": "node/392505311"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/458940568",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5698586,
+          45.5148349
+        ]
+      },
+      "id": "node/458940568"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929628",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5709486,
+          45.5171853
+        ]
+      },
+      "id": "node/459929628"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929632",
+        "barrier": "bollard",
+        "bicycle": "no",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5709883,
+          45.5173848
+        ]
+      },
+      "id": "node/459929632"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929642",
+        "barrier": "bollard",
+        "bicycle": "no",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5718622,
+          45.5177813
+        ]
+      },
+      "id": "node/459929642"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692643",
+        "access": "no",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5694614,
+          45.5100389
+        ]
+      },
+      "id": "node/467692643"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692647",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5693435,
+          45.5099808
+        ]
+      },
+      "id": "node/467692647"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692821",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.569113,
+          45.5089941
+        ]
+      },
+      "id": "node/467692821"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692822",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5689564,
+          45.5089715
+        ]
+      },
+      "id": "node/467692822"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692890",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5690477,
+          45.5090182
+        ]
+      },
+      "id": "node/467692890"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/472787355",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5679895,
+          45.5100527
+        ]
+      },
+      "id": "node/472787355"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1566787145",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5923065,
+          45.523529
+        ]
+      },
+      "id": "node/1566787145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1575941618",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5773684,
+          45.5057706
+        ]
+      },
+      "id": "node/1575941618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1575941644",
+        "barrier": "bollard",
+        "bollard": "rising"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5771081,
+          45.5055313
+        ]
+      },
+      "id": "node/1575941644"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3383231160",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5796774,
+          45.5118548
+        ]
+      },
+      "id": "node/3383231160"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3744335927",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "foot": "yes",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5599751,
+          45.5134025
+        ]
+      },
+      "id": "node/3744335927"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9647381617",
+        "barrier": "bollard",
+        "image": "https://web.archive.org/web/20220407004303/https://westnordost.de/p/87428.jpg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.572997,
+          45.5010386
+        ]
+      },
+      "id": "node/9647381617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9647381618",
+        "barrier": "bollard",
+        "image": "https://web.archive.org/web/20220407004303/https://westnordost.de/p/87428.jpg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5729771,
+          45.5010293
+        ]
+      },
+      "id": "node/9647381618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720629",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764545,
+          45.5030509
+        ]
+      },
+      "id": "node/11819720629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720630",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764602,
+          45.503045
+        ]
+      },
+      "id": "node/11819720630"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720631",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764727,
+          45.5030313
+        ]
+      },
+      "id": "node/11819720631"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720632",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764787,
+          45.503026
+        ]
+      },
+      "id": "node/11819720632"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720633",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764958,
+          45.503006
+        ]
+      },
+      "id": "node/11819720633"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720634",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764892,
+          45.5030133
+        ]
+      },
+      "id": "node/11819720634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990044",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755693,
+          45.5048883
+        ]
+      },
+      "id": "node/11833990044"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990045",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755689,
+          45.5049092
+        ]
+      },
+      "id": "node/11833990045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990046",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755767,
+          45.5049372
+        ]
+      },
+      "id": "node/11833990046"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990052",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5749006,
+          45.5038482
+        ]
+      },
+      "id": "node/11833990052"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990053",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748867,
+          45.5038631
+        ]
+      },
+      "id": "node/11833990053"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990054",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748734,
+          45.5038755
+        ]
+      },
+      "id": "node/11833990054"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990055",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748608,
+          45.5038889
+        ]
+      },
+      "id": "node/11833990055"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990056",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748472,
+          45.503903
+        ]
+      },
+      "id": "node/11833990056"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990057",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748336,
+          45.503916
+        ]
+      },
+      "id": "node/11833990057"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024991",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577262,
+          45.5040159
+        ]
+      },
+      "id": "node/11836024991"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024992",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772487,
+          45.5040295
+        ]
+      },
+      "id": "node/11836024992"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024993",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772356,
+          45.5040438
+        ]
+      },
+      "id": "node/11836024993"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024994",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772225,
+          45.5040562
+        ]
+      },
+      "id": "node/11836024994"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024995",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772758,
+          45.5040017
+        ]
+      },
+      "id": "node/11836024995"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11994607604",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "concrete",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5658178,
+          45.5162824
+        ]
+      },
+      "id": "node/11994607604"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12011121616",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755542,
+          45.504926
+        ]
+      },
+      "id": "node/12011121616"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12011121617",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755989,
+          45.5048915
+        ]
+      },
+      "id": "node/12011121617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12798012766",
+        "barrier": "bollard",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5814224,
+          45.5087335
+        ]
+      },
+      "id": "node/12798012766"
+    }
+  ]
+}

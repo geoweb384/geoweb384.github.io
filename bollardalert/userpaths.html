@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8" />
+ <title>assignment 3 - user paths</title>
+ <link rel="icon" type="image/png" href="favicon.ico.png" />
+
+ <!-- This section fits the view for mobile-->
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+
+ <style>
+ :root{ /*root creates global styles */
+ --bg:white; /*background*/
+ --ink:white; /*ink text*/
+ --brand:blue; /*navigation bar colour*/
+ --brand-hi:darkblue; /*navigation bar hover colour*/
+ --header-h:77px; /*header height*/
+ --tab-h:77px; /*navigation bar height*/
+ --radius:0px; /*rounded corners*/
+ }
+
+ *{ box-sizing:border-box; }
+ html,body{ height:100%; }
+ body{
+ margin:0;
+ color:black;
+ background:var(--bg);
+ font-family:"Courier New", monospace;
+ }
+
+ #app{
+ height:100vh;
+ display:grid;
+ grid-template-rows: var(--header-h) 1fr;
+ grid-template-columns: 100%;
+ padding-bottom: 20px;
+ }
+
+ header{
+ grid-row:1;
+ display:flex;
+ height: auto;
+ flex-direction: column;
+ align-items:center;
+ justify-content:center;
+ padding:22px 16px;
+ height:var(--header-h);
+ text-align:center;
+ position:sticky;
+ top:12px;
+ z-index:10;
+ }
+
+ .welcomemsg{
+ grid-row:1;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:0 16px;
+ height:var(--header-h);
+ text-align:center;
+ position:sticky;
+ top:0;
+ z-index:10;
+ }
+
+ header h1{
+ font-size:1rem;
+ letter-spacing:0.02em;
+ margin:0;
+ }
+
+ main{
+ grid-row:2;
+ min-height:0;
+ display: flex;
+ flex-direction: column;
+ align-items: center; /* centers horizontally */
+ justify-content: center;
+ }
+
+ #map{
+  position: relative;
+  margin: 0 auto;
+  width:90vw;
+  height:100%;
+ }
+
+ nav{
+ grid-row:3;
+ display:flex;
+ gap:8px;
+ padding:8px env(safe-area-inset-right) calc(8px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+ background:transparent;
+ }
+
+ .navbar_container{
+ display:flex;
+ font-size: 12px;
+ width:100%;
+ background:var(--brand);
+ border-radius:0px;
+ overflow:hidden;
+ }
+ .navbar{
+ display: flex;
+ flex-direction: column;
+ align-items: center; /* centers horizontally */
+ justify-content: center;
+ text-align:center;
+ width: 20vw;
+ padding:14px 8px;
+ font-size: 12px;
+ color:white;
+ text-decoration:none;
+ }
+ .navbar:active,
+ .navbar:hover{
+ background:var(--brand-hi);
+ }
+
+ footer{
+ display:none;
+ }
+
+ button {
+ font-size: 12px;
+ background-color: white;
+ color: black;
+ padding: 14px 20px;
+ margin: 8px 0;
+ border: black 1px dotted;
+ cursor: pointer;
+ font-family: 'Courier New', Courier, monospace;
+ }
+
+ @media (min-width: 768px){
+ header h1{ font-size:1.125rem; }
+ .popup{ max-width:320px; }
+ }
+
+.marker {
+  background-image: url('https://streetfurniture.co.nz/wp-content/uploads/2022/05/101-WFT-SS.png');
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  mix-blend-mode: difference;
+}
+
+#bollardContainer {
+  background-color: #f2f2f2;
+  color: black;
+  padding: 2px;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  font-family:"Courier New", monospace;
+  border: black 1px dotted;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 55px;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightsteelblue;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: blue;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px darkblue;
+}
+
+/* Animates the toggle */
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+#layerToggles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px; /* space between switches */
+  flex-wrap: wrap; /* makes them go to a new line if needed */
+  margin-top: 10px;
+  padding-left: 16px;
+}
+
+.dropbtn {
+  background-color: blue;
+  color: white;
+  padding: 16px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: darkblue;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.show {display:block;}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;             
+}
+
+.logo {
+  width: 40px;          
+  position: relative;
+  top: -7px;
+}
+
+.brand {
+  font-family: Papyrus, fantasy;
+  font-size: 20px;
+  color: blue;
+}
+
+</style>
+</head>
+<body>
+ <div id="app">
+   <header>
+  <div class="topbar">
+    <img src="bollardlogonav.svg" alt="Bolli Logo" class="logo">
+    <h1 class="brand">Bolli</h1>
+  </div>
+   </header>
+ 
+<main>
+  <h2 id="welcomeMessage" style="font-size:20px;"></h2>
+
+  <nav aria-label="Primary">
+    <div class="navbar_container">
+      <a class="navbar" href="proximitysensor.html">proximity sensor</a>
+      <a class="navbar" href="userpaths.html">user paths</a>
+    </div>
+  </nav>
+
+  <!-- Rectangular switch -->
+  <!-- "checked" makes them default visible -->
+  <div class = "dropdown">
+    <button onclick = "myFunction()" class = "dropbtn">access user menu</button>
+    <div id = "myDropdown" class = "dropdown-content">
+      <label class="switch">
+        <input type="checkbox" id = "ivyToggle" checked>
+        <span class="slider"></span>
+        <span class = "label-text">ivy</span>
+      </label>
+      <br>
+      <label class="switch">
+        <input type="checkbox" id = "charleyToggle" checked>
+        <span class="slider"></span> 
+        <span class = "label-text">charley</span>
+      </label>
+      <br>
+      <label class="switch">
+        <input type="checkbox" id = "nikolasToggle" checked>
+        <span class="slider"></span> 
+        <span class = "label-text">niko</span>
+      </label>
+      <br>
+      <label class="switch">
+        <input type="checkbox" id = "instructorToggle" checked>
+        <span class="slider"></span> 
+        <span class = "label-text">instructor</span>
+      </label>
+    </div>
+  </div>
+
+<!-- Show the map -->
+<div id="map"></div>
+
+</main>
+ </div>
+
+ <script>
+  let map;
+
+window.addEventListener("DOMContentLoaded", () => {
+  const username = localStorage.getItem("username");
+  document.getElementById("welcomeMessage").textContent = username
+    ? `hello ${username}`
+    : "hello Instructor";
+
+//Access the Mapbox account
+mapboxgl.accessToken = 'pk.eyJ1IjoiaXZ5c2hpIiwiYSI6ImNtZjJybW1yeDJqcWsya29hZGdraGx3cHkifQ.tgAFOixQ8nPqGfZ2LvXBng';
+
+  //Mapping all of the bollard points
+   const geojson = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/392505311",
+        "barrier": "bollard",
+        "bollard": "rising"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5775705,
+          45.5037741
+        ]
+      },
+      "id": "node/392505311"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/458940568",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5698586,
+          45.5148349
+        ]
+      },
+      "id": "node/458940568"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929628",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5709486,
+          45.5171853
+        ]
+      },
+      "id": "node/459929628"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929632",
+        "barrier": "bollard",
+        "bicycle": "no",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5709883,
+          45.5173848
+        ]
+      },
+      "id": "node/459929632"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/459929642",
+        "barrier": "bollard",
+        "bicycle": "no",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5718622,
+          45.5177813
+        ]
+      },
+      "id": "node/459929642"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692643",
+        "access": "no",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5694614,
+          45.5100389
+        ]
+      },
+      "id": "node/467692643"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692647",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5693435,
+          45.5099808
+        ]
+      },
+      "id": "node/467692647"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692821",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.569113,
+          45.5089941
+        ]
+      },
+      "id": "node/467692821"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692822",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5689564,
+          45.5089715
+        ]
+      },
+      "id": "node/467692822"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/467692890",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5690477,
+          45.5090182
+        ]
+      },
+      "id": "node/467692890"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/472787355",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5679895,
+          45.5100527
+        ]
+      },
+      "id": "node/472787355"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1566787145",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5923065,
+          45.523529
+        ]
+      },
+      "id": "node/1566787145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1575941618",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5773684,
+          45.5057706
+        ]
+      },
+      "id": "node/1575941618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1575941644",
+        "barrier": "bollard",
+        "bollard": "rising"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5771081,
+          45.5055313
+        ]
+      },
+      "id": "node/1575941644"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3383231160",
+        "barrier": "bollard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5796774,
+          45.5118548
+        ]
+      },
+      "id": "node/3383231160"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3744335927",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "foot": "yes",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5599751,
+          45.5134025
+        ]
+      },
+      "id": "node/3744335927"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9647381617",
+        "barrier": "bollard",
+        "image": "https://web.archive.org/web/20220407004303/https://westnordost.de/p/87428.jpg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.572997,
+          45.5010386
+        ]
+      },
+      "id": "node/9647381617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9647381618",
+        "barrier": "bollard",
+        "image": "https://web.archive.org/web/20220407004303/https://westnordost.de/p/87428.jpg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5729771,
+          45.5010293
+        ]
+      },
+      "id": "node/9647381618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720629",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764545,
+          45.5030509
+        ]
+      },
+      "id": "node/11819720629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720630",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764602,
+          45.503045
+        ]
+      },
+      "id": "node/11819720630"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720631",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764727,
+          45.5030313
+        ]
+      },
+      "id": "node/11819720631"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720632",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764787,
+          45.503026
+        ]
+      },
+      "id": "node/11819720632"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720633",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764958,
+          45.503006
+        ]
+      },
+      "id": "node/11819720633"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11819720634",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5764892,
+          45.5030133
+        ]
+      },
+      "id": "node/11819720634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990044",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755693,
+          45.5048883
+        ]
+      },
+      "id": "node/11833990044"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990045",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755689,
+          45.5049092
+        ]
+      },
+      "id": "node/11833990045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990046",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755767,
+          45.5049372
+        ]
+      },
+      "id": "node/11833990046"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990052",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5749006,
+          45.5038482
+        ]
+      },
+      "id": "node/11833990052"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990053",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748867,
+          45.5038631
+        ]
+      },
+      "id": "node/11833990053"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990054",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748734,
+          45.5038755
+        ]
+      },
+      "id": "node/11833990054"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990055",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748608,
+          45.5038889
+        ]
+      },
+      "id": "node/11833990055"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990056",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748472,
+          45.503903
+        ]
+      },
+      "id": "node/11833990056"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11833990057",
+        "barrier": "bollard",
+        "bicycle": "yes",
+        "bollard": "rising",
+        "foot": "yes",
+        "material": "metal",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5748336,
+          45.503916
+        ]
+      },
+      "id": "node/11833990057"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024991",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577262,
+          45.5040159
+        ]
+      },
+      "id": "node/11836024991"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024992",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772487,
+          45.5040295
+        ]
+      },
+      "id": "node/11836024992"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024993",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772356,
+          45.5040438
+        ]
+      },
+      "id": "node/11836024993"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024994",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772225,
+          45.5040562
+        ]
+      },
+      "id": "node/11836024994"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11836024995",
+        "barrier": "bollard",
+        "bollard": "removable",
+        "material": "metal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5772758,
+          45.5040017
+        ]
+      },
+      "id": "node/11836024995"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11994607604",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "concrete",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5658178,
+          45.5162824
+        ]
+      },
+      "id": "node/11994607604"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12011121616",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755542,
+          45.504926
+        ]
+      },
+      "id": "node/12011121616"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12011121617",
+        "barrier": "bollard",
+        "bollard": "fixed",
+        "material": "stone",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5755989,
+          45.5048915
+        ]
+      },
+      "id": "node/12011121617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12798012766",
+        "barrier": "bollard",
+        "motor_vehicle": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5814224,
+          45.5087335
+        ]
+      },
+      "id": "node/12798012766"
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          -73.57822838736575,
+          45.51047786597462
+        ],
+        "type": "Point"
+      }
+    }
+  ]
+}
+  
+  //Bounding box for the map
+   const bounds = [ [-74.30867, 45.24958], [-72.98227, 45.84314] ];
+ 
+  //Creating the map itself
+   map = new mapboxgl.Map({
+     container: 'map',
+     style: 'mapbox://styles/ivyshi/cmhh37bab004001s89u03a4b8',
+     center: [-73.58, 45.52],
+     zoom: 13,
+     maxBounds: bounds,
+   });
+
+   //Once the map loads, maps each of the GeoJSON features
+    map.on('load', () => {
+      for (const feature of geojson.features) {
+        const el = document.createElement('div');
+        el.className = 'marker';
+        new mapboxgl.Marker(el)
+          .setLngLat(feature.geometry.coordinates)
+          .addTo(map);
+      }
+
+    //external GeoJSON sources
+    map.addSource('ivySource', {
+      type: 'geojson',
+      data: 'https://neogeoweb.ca/group6/a3/ivy.json'
+    });
+
+    map.addSource('charleySource', {
+      type: 'geojson',
+      data: 'https://neogeoweb.ca/group6/a3/charley.json'
+    });
+
+    map.addSource('nikolasSource', {
+      type: 'geojson',
+      data: 'https://neogeoweb.ca/group6/a3/nikolas.json'
+    });
+
+    map.addSource('instructorSource', {
+      type: 'geojson',
+      data: 'https://neogeoweb.ca/group6/a3/instructor.json'
+    });
+
+    //Mapping the lines on the map
+    map.addLayer({
+      id: 'ivyLayer',
+      type: 'line',
+      source: 'ivySource',
+      paint: {
+        'line-width': 6,
+        'line-color': 'magenta'
+      }
+    });
+
+    map.addLayer({
+      id: 'charleyLayer',
+      type: 'line',
+      source: 'charleySource',
+      paint: {
+        'line-width': 6,
+        'line-color': 'yellow'
+      }
+    });
+
+    map.addLayer({
+      id: 'nikolasLayer',
+      type: 'line',
+      source: 'nikolasSource',
+      paint: {
+        'line-width': 6,
+        'line-color': 'blue'
+      }
+    });
+
+    map.addLayer({
+      id: 'instructorLayer',
+      type: 'line',
+      source: 'instructorSource',
+      paint: {
+        'line-width': 6,
+        'line-color': 'red'
+      }
+    });
+
+function toggleLayer(toggleId, layerId) {
+  const checkbox = document.getElementById(toggleId);
+  map.setLayoutProperty(layerId, 'visibility', checkbox.checked ? 'visible' : 'none');
+
+  checkbox.addEventListener('change', () => {
+    const visibility = checkbox.checked ? 'visible' : 'none'; 
+    map.setLayoutProperty(layerId, 'visibility', visibility);
+  });
+}
+
+
+toggleLayer('ivyToggle','ivyLayer');
+toggleLayer('charleyToggle', 'charleyLayer');
+toggleLayer('nikolasToggle', 'nikolasLayer');
+toggleLayer('instructorToggle', 'instructorLayer');
+
+      map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.addControl(new mapboxgl.FullscreenControl());
+      });  
+      });
+
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+
+['ivyLayer', 'charleyLayer', 'nikolasLayer', 'instructorLayer'].forEach(layerId => {
+
+  map.on('click', layerId, (e) => {
+    const coordinates = e.lngLat;
+    const props = e.features[0].properties;
+
+    new mapboxgl.Popup({ offset: 8 })
+      .setLngLat(coordinates)
+      .addTo(map);
+  });
+});
+
+    </script>
+</body>
+</html>

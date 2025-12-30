@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  height: 100vh; 
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;     
+}
+
+form {
+	border: 1px solid black;		
+  margin: 0;
+  padding: 16px;
+}
+
+.wrapper {
+  width: 75vw;          /* 80% of viewport width */
+  margin: 0 auto;       /* center horizontally */
+  box-sizing: border-box;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;								/*full width inputs*/
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+h2 {
+  text-align: center;
+  color: blue;
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+button {
+  background-color: blue;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.container {
+  padding: 16px;
+}
+
+.error { 
+	color:#ff4d4f; 
+	margin:8px 0 0; 
+	min-height:1.25em; 
+}
+
+.invalid { 
+	outline:2px solid #ff4d4f; 
+}
+
+.brand {
+  font-family: Papyrus, fantasy;
+  font-size: 42px;
+  text-align: center;
+  color: blue;
+  margin-bottom: 0;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<img src="bollardlogo.svg" alt="Bollard Montreal Logo" style="width:350px; display:block; margin:-35px auto;">
+<h1 class="brand">Bolli</h1>
+
+<h2>login to the proximity sensor:</h2>
+
+<div class="wrapper">
+<form id = "loginForm" action="" method="post">
+  <div class="imgcontainer">
+  </div>
+
+  <div class="container">
+    <label for="uname"><b>username</b></label>
+    <input id = "userID" type="text" placeholder="enter username" name="uname" required>
+        
+    <button type="submit">login</button>
+    <p id = "errorMsg" class = "error"></p>
+    <label>
+    </label>
+  </div>
+</div>
+
+
+</form>
+
+<script>
+const validUsers = ['ivy', 'charley', 'nikolas', 'instructor'];
+
+document.getElementById('loginForm').onsubmit = function(signIn) {
+  signIn.preventDefault();
+  const user = document.getElementById('userID').value.trim().toLowerCase();
+  if (validUsers.includes(user)) {
+    localStorage.setItem('username', user);
+    window.location.replace('proximitysensor.html');
+  } else {
+    document.getElementById('errorMsg').textContent = 'ErRoR! iNvAlid uSeR!';
+  }
+};
+</script>
+
+</body>
+</html>
