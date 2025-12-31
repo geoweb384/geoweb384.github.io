@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>geoweb384 - group six</title>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --border: #c9c9c9;
+      --panel: #f8f8f8;
+      --active-bg: #111;
+      --active-text: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.45;
+    }
+
+    .wrap {
+      height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .nav-item:hover {
+      background: var(--active-bg);
+      color: var(--active-text);
+      border-color: var(--active-bg);
+    }
+
+    .nav-item.active {
+      background: var(--active-bg);
+      color: var(--active-text);
+      border-color: var(--active-bg);
+    }
+
+    .nav-item:focus-visible {
+      outline: 2px solid #111;
+      outline-offset: 2px;
+    }
+
+    .preview {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .embed {
+      flex: 1;
+      min-height: 0;
+      border: 1px solid var(--border);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .embed-stage {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .embed-stage iframe {
+      --scale: 0.8;
+      width: calc(100% / var(--scale));
+      height: calc(100% / var(--scale));
+      border: 0;
+
+      transform: scale(var(--scale));
+      transform-origin: top left;
+      display: block;
+    }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 14px; }
+      h1 { font-size: 20px; }
+      .nav-item { padding: 6px 8px; font-size: 11px; }
+      .embed-stage iframe { --scale: 0.75; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>geoweb384 archive</h1>
+
+    <nav class="nav" aria-label="Sites">
+      <a class="nav-item active" href="garibaldi/index.html" data-src="garibaldi/index.html">
+        GARIBALDI HELICOPTER TOURS STORYMAP
+      </a>
+
+      <a class="nav-item" href="latenighteats/home.html" data-src="latenighteats/home.html">
+        PLATEAU / MILE END LATE NIGHT EATS
+      </a>
+
+      <a class="nav-item" href="bollardalert/index.html" data-src="bollardalert/proximitysensor.html">
+        BOLLI BOLLARD ALERT
+      </a>
+
+      <a class="nav-item" href="australiaweather/index.html" data-src="australiaweather/index.html">
+        WHAT SHOULD I WEAR?: AUSTRALIA
+      </a>
+    </nav>
+
+    <section class="preview" aria-label="Embedded preview">
+      <div class="embed">
+        <div class="embed-stage">
+          <iframe id="preview" title="Site preview" src="garibaldi/index.html"></iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const preview = document.getElementById("preview");
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const src = item.getAttribute("data-src");
+        preview.src = src;
+
+        navItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
