@@ -3,37 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>geoweb384</title>
+  <title>geoweb384 archive</title>
 
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --muted: #666666;
-      --border: #c9c9c9;
-      --panel: #f8f8f8;
-      --active-bg: #111;
-      --active-text: #fff;
+    :root{
+      --bg: #FFFF00;
+      --panel: #ffffff;
+      --text: #0f0f0f;
+      --border: #2a2a2a;
+      --accent: #0000EE;
+      --active-bg: #111111;
+      --active-text: #ffffff;
     }
 
     * { box-sizing: border-box; }
+    html, body { height: 100%; }
 
-    html, body {
-      height: 100%;
-    }
-
-    body {
+    body{
       margin: 0;
       overflow: hidden;
       background: var(--bg);
       color: var(--text);
-      font-family: "Courier New", Courier, monospace;
+      font-family: Helvetica, "Courier New", sans-serif;
       line-height: 1.45;
     }
 
-    .wrap {
+    .wrap{
       height: 100vh;
-      max-width: 1100px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 18px;
       display: flex;
@@ -42,136 +39,200 @@
       min-height: 0;
     }
 
-    h1 {
-      margin: 0;
+    header{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 14px 16px;
+    }
+
+    h1{
+      margin: 0 0 6px 0;
       font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
+    .desc{
+      margin: 0;
+      font-size: 13px;
     }
 
-    .nav-item {
+    .main{
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      gap: 12px;
+    }
+
+    .sidebar{
+      min-height: 0;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: auto;
+    }
+
+    .nav{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item{
+      display: block;
       text-decoration: none;
       color: var(--text);
-      font-size: 12px;
-      padding: 6px 10px;
+      padding: 10px 12px;
       border: 1px solid var(--border);
-      background: #fff;
-      text-transform: uppercase;
+      background: var(--panel);
       line-height: 1.2;
     }
 
-    .nav-item:hover {
+    .nav-item:hover{
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .nav-item.active{
       background: var(--active-bg);
       color: var(--active-text);
       border-color: var(--active-bg);
     }
 
-    .nav-item.active {
-      background: var(--active-bg);
-      color: var(--active-text);
-      border-color: var(--active-bg);
-    }
-
-    .nav-item:focus-visible {
+    .nav-item:focus-visible{
       outline: 2px solid #111;
       outline-offset: 2px;
     }
 
-    .preview {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
+    .nav-name{
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
     }
 
-    .embed {
-      flex: 1;
+    .nav-desc{
+      display: none;
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .nav-item.active .nav-desc{
+      display: block;
+      margin-top: 8px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .content{
       min-height: 0;
       border: 1px solid var(--border);
-      background: #fff;
+      background: var(--panel);
       overflow: hidden;
     }
 
-    .embed-stage {
+    .embed-stage{
       width: 100%;
       height: 100%;
-      position: relative;
       overflow: hidden;
     }
 
-    .embed-stage iframe {
+    .embed-stage iframe{
       --scale: 0.8;
       width: calc(100% / var(--scale));
       height: calc(100% / var(--scale));
       border: 0;
-
       transform: scale(var(--scale));
       transform-origin: top left;
       display: block;
-    }
-
-    @media (max-width: 520px) {
-      .wrap { padding: 14px; }
-      h1 { font-size: 20px; }
-      .nav-item { padding: 6px 8px; font-size: 11px; }
-      .embed-stage iframe { --scale: 0.75; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <h1>geoweb384 archive</h1>
+    <header>
+      <h1>geoweb384 archive</h1>
+      <p class="desc">
+        apps made by Charlotte Alarie, Ivy Shi, and Nikolas Hochschild for GEOG 384: The Geospatial Web.
+      </p>
+    </header>
 
-    <nav class="nav" aria-label="Sites">
-      <a class="nav-item active" href="garibaldi/index.html" data-src="garibaldi/index.html">
-        GARIBALDI HELICOPTER TOURS STORYMAP
-      </a>
+    <div class="main">
+      <aside class="sidebar" aria-label="Navigation">
+        <nav class="nav" aria-label="Sites">
 
-      <a class="nav-item" href="latenighteats/home.html" data-src="latenighteats/home.html">
-        PLATEAU / MILE END LATE NIGHT EATS
-      </a>
+          <a class="nav-item active"
+             href="garibaldi/index.html"
+             data-src="garibaldi/index.html"
+             data-desc="This storymap is a fictional helicopter tour of the Garibaldi Volcanic Range. The tour begins with an overview of the mountain range and its peaks before diving into its five distinct areas: Silverthrone Caldera, Bridge River Cones, Mount Meager, Mount Cayley, and Mount & Lake Garibaldi.">
+            <div class="nav-name">GARABALDI VOLCANIC RANGE STORYMAP</div>
+            <p class="nav-desc"></p>
+          </a>
 
-      <a class="nav-item" href="bollardalert/index.html" data-src="bollardalert/proximitysensor.html">
-        BOLLI BOLLARD ALERT
-      </a>
+          <a class="nav-item"
+             href="latenighteats/home.html"
+             data-src="latenighteats/home.html"
+             data-desc="Whether you’re a student coming back from pulling a late study night, coming back from a night out, or just want to stroll around for your midnight snack… our website is perfect for you! Introducing Plateau / Mile End Late Night Eats! Hover around the map to pick what might just be your next favourite spot to eat out (day or night). To create it, we scraped restaurant data from RestoMontreal for the Plateau/Mile-End area, filtered for places open late, and geocoded the results.">
+            <div class="nav-name">PLATEAU / MILE END LATE NIGHT EATS</div>
+            <p class="nav-desc"></p>
+          </a>
 
-      <a class="nav-item" href="australiaweather/index.html" data-src="australiaweather/index.html">
-        WHAT SHOULD I WEAR?: AUSTRALIA
-      </a>
-    </nav>
+          <a class="nav-item"
+             href="bollardalert/proximitysensor.html"
+             data-src="bollardalert/proximitysensor.html"
+             data-desc="BOLLI is a location-tracking web app that, upon permission and activation, records the user's latitude/longitude at 30 second intervals. As it tracks, it compares the user’s location to a GeoJSON dataset of Montreal's bollards sourced from OpenStreetMap and displays a 'BOLLARD ALERT!' when the user comes within 100 metres of a bollard. The User Paths page converts the saved coordinate logs into GeoJSON line features and visualizes each user’s route as a stylized line.">
+            <div class="nav-name">BOLLI: BOLLARD ALERT!</div>
+            <p class="nav-desc"></p>
+          </a>
 
-    <section class="preview" aria-label="Embedded preview">
-      <div class="embed">
+          <a class="nav-item"
+             href="australiaweather/index.html"
+             data-src="australiaweather/index.html"
+             data-desc="A simple weather-to-outfit interface for Australian cities that pulls forecast data from the Tomorrow.io API and visualizes it using Chart.js.">
+            <div class="nav-name">WHAT SHOULD I WEAR?: AUSTRALIA</div>
+            <p class="nav-desc"></p>
+          </a>
+
+        </nav>
+      </aside>
+
+      <section class="content" aria-label="Embedded preview">
         <div class="embed-stage">
           <iframe id="preview" title="Site preview" src="garibaldi/index.html"></iframe>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 
   <script>
     const preview = document.getElementById("preview");
     const navItems = document.querySelectorAll(".nav-item");
 
+    function setActive(activeItem){
+      preview.src = activeItem.dataset.src;
+
+      navItems.forEach(item => {
+        const isActive = item === activeItem;
+        item.classList.toggle("active", isActive);
+
+        const desc = item.querySelector(".nav-desc");
+        if (desc) desc.textContent = isActive ? (item.dataset.desc || "") : "";
+      });
+    }
+
     navItems.forEach(item => {
       item.addEventListener("click", (e) => {
         e.preventDefault();
-
-        const src = item.getAttribute("data-src");
-        preview.src = src;
-
-        navItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
+        setActive(item);
       });
     });
+
+    setActive(document.querySelector(".nav-item.active") || navItems[0]);
   </script>
 </body>
 </html>
